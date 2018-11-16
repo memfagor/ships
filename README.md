@@ -19,14 +19,17 @@ Compiler](https://www.freepascal.org/)
 For Linux and Free Pascal Compiler:
 <code>
 cd ships/
+</code>
+<code>
 fpc ships.pas
+</code>
+<code>
 ./ships
 </code>
 
 ## Authors
 
-* **Michał Piotrowicz** - *Initial work* -
-* [memfagor](https://github.com/memfagor)
+* **Michał Piotrowicz** [memfagor](https://github.com/memfagor)
 
 ## License
 
