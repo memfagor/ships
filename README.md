@@ -5,9 +5,9 @@ The Pascal implementation of simplified Battleship game.
 ## Getting Started
 
 To obtain the source code:
-<code>
+```
 git clone git://github.com/memfagor/ships.git
-</code>
+```
 
 ### Prerequisites
 
@@ -17,15 +17,11 @@ Compiler](https://www.freepascal.org/)
 ### Installing
 
 For Linux and Free Pascal Compiler:
-<code>
+```
 cd ships/
-</code>
-<code>
 fpc ships.pas
-</code>
-<code>
 ./ships
-</code>
+```
 
 ## Authors
 
