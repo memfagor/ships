@@ -38,7 +38,7 @@ procedure print_field(var obj : field; p_x, p_y : byte; hidden : point);
 procedure print_battlefield(var obj : players; p_x, p_y : byte);
 procedure fill_field(var obj : field; nmbr : byte);
 procedure autofill_field(var obj : field; nmbr : byte);
-procedure mark_sink(var obj : field; p_x, p_y : shortint);
+procedure mark_sinked(var obj : field; p_x, p_y : shortint);
 procedure autoshoot(var shooter, target : player);
 procedure shoot(var shooter, target : player);
 
@@ -230,7 +230,7 @@ begin
   end;
 end;
 
-procedure mark_sink(var obj : field; p_x, p_y : shortint);
+procedure mark_sinked(var obj : field; p_x, p_y : shortint);
 
 var
   indx_x : shortint;
@@ -252,7 +252,7 @@ begin
             end;
     occupied : begin
                  target.bfield[p_x,p_y] := hit;
-                 mark_sink(target.bfield,p_x,p_y);
+                 mark_sinked(target.bfield,p_x,p_y);
                  shooter.hit := shooter.hit + 1;
                end;
   end;
