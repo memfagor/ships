@@ -108,28 +108,12 @@ end;
 procedure print_point(obj : point);
 begin
   case obj of
-    empty : begin
-              textcolor(8);
-              write('.');
-            end;
-    occupied : begin
-                 textcolor(green);
-                 write('*');
-               end;
-    hit : begin
-            textcolor(red);
-            write('*');
-          end;
-    miss : begin
-             textcolor(blue);
-             write('+');
-           end;
-    marked : begin
-               textcolor(yellow);
-               write('+');
-             end;
+    empty : colorized_write('.',8);
+    occupied : colorized_write('*',2);
+    hit : colorized_write('*',4);
+    miss : colorized_write('+',1);
+    marked : colorized_write('+',14);
   end;
-  textcolor(8);
 end;
 
 procedure print_field(var obj : field; p_x, p_y : byte; hidden : point);
