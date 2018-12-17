@@ -243,6 +243,21 @@ begin
         if obj[indx_x,indx_y] = empty then obj[indx_x,indx_y] := marked;
 end;
 
+procedure reach_target(var shooter, target : player; p_x, p_y : byte);
+begin
+    case target.bfield[p_x,p_y] of
+        empty : begin
+                    target.bfield[p_x,p_y] := miss;
+                    shooter.miss := shooter.miss + 1;
+                end;
+        occupied : begin
+                        target.bfield[p_x,p_y] := hit;
+                        mark_sink(target.bfield,p_x,p_y);
+                        shooter.hit := shooter.hit + 1;
+                    end;
+  end;
+end;
+
 procedure autoshoot(var shooter, target : player);
 
 var
