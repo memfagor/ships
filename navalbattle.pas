@@ -98,6 +98,13 @@ begin
   for indx := 0 to 1 do init_player(obj[indx]);
 end;
 
+procedure colorized_write(txt : string; color : byte);
+begin
+    textcolor(color);
+    write(txt);
+    textcolor(8);
+end;
+
 procedure print_point(obj : point);
 begin
   case obj of
