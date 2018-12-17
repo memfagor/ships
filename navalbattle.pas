@@ -269,17 +269,7 @@ begin
     p_x := random(10);
     p_y := random(10);
   until ((target.bfield[p_x,p_y] = empty) or (target.bfield[p_x,p_y] = occupied));
-  case target.bfield[p_x,p_y] of
-    empty : begin
-              target.bfield[p_x,p_y] := miss;
-              shooter.miss := shooter.miss + 1;
-            end;
-    occupied : begin
-                 target.bfield[p_x,p_y] := hit;
-                 mark_sink(target.bfield,p_x,p_y);
-                 shooter.hit := shooter.hit + 1;
-               end;
-  end;
+  reach_target(shooter,target,p_x,p_y);
 end;
 
 procedure shoot(var shooter, target : player);
@@ -329,17 +319,7 @@ begin
        #27 : is_shoot := true;
      end;
    until is_shoot;
-   case target.bfield[cursor.pos_x,cursor.pos_y] of
-     empty : begin
-              target.bfield[cursor.pos_x,cursor.pos_y] := miss;
-              shooter.miss := shooter.miss + 1;
-            end;
-     occupied : begin
-                 target.bfield[cursor.pos_x,cursor.pos_y] := hit;
-                 mark_sink(target.bfield,cursor.pos_x,cursor.pos_y);
-                 shooter.hit := shooter.hit + 1;
-               end;
-   end;
+   reach_target(shooter,target,cursor.pos_x,cursor.pos_y);
 end;
    
 end.
