@@ -112,7 +112,7 @@ end;
 procedure print_point(obj : point);
 begin
   case obj of
-    empty : colorized_write('.',8);
+    empty : colorized_write('.',DEFAULT_TEXT_COLOR);
     occupied : colorized_write('*',2);
     hit : colorized_write('*',4);
     miss : colorized_write('+',1);
