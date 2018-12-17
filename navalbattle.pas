@@ -18,7 +18,7 @@ coordinates = record
 
 point = (empty,occupied,hit,miss,marked);
 
-field = array[0..9,0..9] of point;
+field = array[0..DEFAULT_BOARD_SIZE,0..DEFAULT_BOARD_SIZE] of point;
 
 player = record
            bfield : field;
@@ -55,7 +55,7 @@ var
 begin
   for indx_y := p_y - 1 to p_y + 1 do
     for indx_x := p_x -1 to p_x + 1 do
-      if (indx_x in [0..9]) and (indx_y in [0..9]) then 
+      if (indx_x in [0..DEFAULT_BOARD_SIZE]) and (indx_y in [0..DEFAULT_BOARD_SIZE]) then 
         if not (obj[indx_x,indx_y] = empty) then test := false;
   is_empty := test;
 end;
@@ -68,8 +68,8 @@ var
   vessels : byte = 0;
 
 begin
-  for indx_y := 0 to 9 do
-    for indx_x := 0 to 9 do
+  for indx_y := 0 to DEFAULT_BOARD_SIZE do
+    for indx_x := 0 to DEFAULT_BOARD_SIZE do
       if obj[indx_x,indx_y] = occupied then vessels := vessels + 1;
   vessels_number := vessels;
 end;
@@ -81,8 +81,8 @@ var
   indx_y : byte;
 
 begin
-  for indx_y := 0 to 9 do
-    for indx_x := 0 to 9 do obj[indx_x,indx_y] := empty;
+  for indx_y := 0 to DEFAULT_BOARD_SIZE do
+    for indx_x := 0 to DEFAULT_BOARD_SIZE do obj[indx_x,indx_y] := empty;
 end;
 
 procedure init_player(var obj : player);
@@ -106,7 +106,7 @@ procedure colorized_write(txt : string; color : byte);
 begin
     textcolor(color);
     write(txt);
-    textcolor(8);
+    textcolor(DEFAULT_TEXT_COLOR);
 end;
 
 procedure print_point(obj : point);
@@ -128,15 +128,15 @@ var
 
 begin
   gotoxy(p_x+2,p_y);
-  for indx_x := 0 to 9 do write(indx_x+1:2);
+  for indx_x := 0 to DEFAULT_BOARD_SIZE do write(indx_x+1:2);
   gotoxy(p_x+2,p_y+1);
   for indx_x := 0 to 19 do write('-');
-  for indx_y := 0 to 9 do
+  for indx_y := 0 to DEFAULT_BOARD_SIZE do
   begin
     gotoxy(p_x,p_y+2+indx_y);
     write(indx_y+1:2);
     write('|');
-    for indx_x := 0 to 9 do
+    for indx_x := 0 to DEFAULT_BOARD_SIZE do
     begin
       if obj[indx_x,indx_y] = hidden then print_point(empty) else print_point(obj[indx_x,indx_y]);
       write(' ');
@@ -196,10 +196,10 @@ begin
       write(cursor.pos_y+1:2);
       keyprssd := readkey;
       case keyprssd of
-        #72 : if cursor.pos_y > 0 then cursor.pos_y := cursor.pos_y - 1 else cursor.pos_y := 9;
-        #80 : if cursor.pos_y < 9 then cursor.pos_y := cursor.pos_y + 1 else cursor.pos_y := 0;
-        #75 : if cursor.pos_x > 0 then cursor.pos_x := cursor.pos_x - 1 else cursor.pos_x := 9;
-        #77 : if cursor.pos_x < 9 then cursor.pos_x := cursor.pos_x + 1 else cursor.pos_x := 0;
+        #72 : if cursor.pos_y > 0 then cursor.pos_y := cursor.pos_y - 1 else cursor.pos_y := DEFAULT_BOARD_SIZE;
+        #80 : if cursor.pos_y < DEFAULT_BOARD_SIZE then cursor.pos_y := cursor.pos_y + 1 else cursor.pos_y := 0;
+        #75 : if cursor.pos_x > 0 then cursor.pos_x := cursor.pos_x - 1 else cursor.pos_x := DEFAULT_BOARD_SIZE;
+        #77 : if cursor.pos_x < DEFAULT_BOARD_SIZE then cursor.pos_x := cursor.pos_x + 1 else cursor.pos_x := 0;
         #13 : if is_empty(obj,cursor.pos_x,cursor.pos_y) then is_set := true;
         #27 : begin
                 is_set := true;
@@ -239,7 +239,7 @@ var
 begin
   for indx_y := p_y - 1 to p_y + 1 do
     for indx_x := p_x - 1 to p_x + 1 do
-      if (indx_x in [0..9]) and (indx_y in [0..9]) then
+      if (indx_x in [0..DEFAULT_BOARD_SIZE]) and (indx_y in [0..DEFAULT_BOARD_SIZE]) then
         if obj[indx_x,indx_y] = empty then obj[indx_x,indx_y] := marked;
 end;
 
@@ -286,10 +286,10 @@ begin
      write(cursor.pos_y+1:2);
      keyprssd := readkey;
      case keyprssd of
-       #72 : if cursor.pos_y > 0 then cursor.pos_y := cursor.pos_y - 1 else cursor.pos_y := 9;
-       #80 : if cursor.pos_y < 9 then cursor.pos_y := cursor.pos_y + 1 else cursor.pos_y := 0;
-       #75 : if cursor.pos_x > 0 then cursor.pos_x := cursor.pos_x - 1 else cursor.pos_x := 9;
-       #77 : if cursor.pos_x < 9 then cursor.pos_x := cursor.pos_x + 1 else cursor.pos_x := 0;
+       #72 : if cursor.pos_y > 0 then cursor.pos_y := cursor.pos_y - 1 else cursor.pos_y := DEFAULT_BOARD_SIZE;
+       #80 : if cursor.pos_y < DEFAULT_BOARD_SIZE then cursor.pos_y := cursor.pos_y + 1 else cursor.pos_y := 0;
+       #75 : if cursor.pos_x > 0 then cursor.pos_x := cursor.pos_x - 1 else cursor.pos_x := DEFAULT_BOARD_SIZE;
+       #77 : if cursor.pos_x < DEFAULT_BOARD_SIZE then cursor.pos_x := cursor.pos_x + 1 else cursor.pos_x := 0;
        #13 : if (target.bfield[cursor.pos_x,cursor.pos_y] = empty) or (target.bfield[cursor.pos_x,cursor.pos_y] = occupied) then 
              begin
                gotoxy(3,15);
