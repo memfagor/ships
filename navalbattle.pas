@@ -104,9 +104,9 @@ end;
 
 procedure colorized_write(txt : string; color : byte);
 begin
-    textcolor(color);
-    write(txt);
-    textcolor(DEFAULT_TEXT_COLOR);
+  textcolor(color);
+  write(txt);
+  textcolor(DEFAULT_TEXT_COLOR);
 end;
 
 procedure print_point(obj : point);
@@ -245,16 +245,16 @@ end;
 
 procedure reach_target(var shooter, target : player; p_x, p_y : byte);
 begin
-    case target.bfield[p_x,p_y] of
-        empty : begin
-                    target.bfield[p_x,p_y] := miss;
-                    shooter.miss := shooter.miss + 1;
-                end;
-        occupied : begin
-                        target.bfield[p_x,p_y] := hit;
-                        mark_sink(target.bfield,p_x,p_y);
-                        shooter.hit := shooter.hit + 1;
-                    end;
+  case target.bfield[p_x,p_y] of
+    empty : begin
+              target.bfield[p_x,p_y] := miss;
+              shooter.miss := shooter.miss + 1;
+            end;
+    occupied : begin
+                 target.bfield[p_x,p_y] := hit;
+                 mark_sink(target.bfield,p_x,p_y);
+                 shooter.hit := shooter.hit + 1;
+               end;
   end;
 end;
 
