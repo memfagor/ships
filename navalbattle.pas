@@ -5,6 +5,10 @@ interface
 
 uses crt;
 
+const
+    DEFAULT_TEXT_COLOR = 7;
+    DEFAULT_BOARD_SIZE = 9;
+
 type
 
 coordinates = record
