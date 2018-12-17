@@ -1,4 +1,5 @@
 *.o
 *.ppu
+*.s
 ships
 
