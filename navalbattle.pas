@@ -268,7 +268,7 @@ begin
   repeat
     p_x := random(10);
     p_y := random(10);
-  until ((target.bfield[p_x,p_y] = empty) or (target.bfield[p_x,p_y] = occupied));
+  until target.bfield[p_x,p_y] in [empty, occupied];
   reach_target(shooter,target,p_x,p_y);
 end;
 
