@@ -1,6 +1,6 @@
 program ships;
 
-uses crt, navalbattle;
+uses crt, base, baselogic, navalbattle;
 
 var
   is_running : boolean = true;
