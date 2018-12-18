@@ -60,6 +60,17 @@ begin
   is_empty := test;
 end;
 
+function generate_coordinates: coordinates;
+
+var
+  coord : coordinates;
+
+begin
+  coord.pos_x := random(DEFAULT_BOARD_SIZE + 1);
+  coord.pos_y := random(DEFAULT_BOARD_SIZE + 1);
+  generate_coordinates := coord;
+end;
+
 function vessels_number(var obj : field) : byte;
 
 var
