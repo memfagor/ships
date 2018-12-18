@@ -114,6 +114,7 @@ begin
 end;
 
 procedure colorized_write(txt : string; color : byte);
+
 begin
   textcolor(color);
   write(txt);
@@ -121,6 +122,7 @@ begin
 end;
 
 procedure print_point(obj : point);
+
 begin
   case obj of
     empty : colorized_write('.',DEFAULT_TEXT_COLOR);
@@ -255,6 +257,7 @@ begin
 end;
 
 procedure reach_target(var shooter, target : player; p_x, p_y : byte);
+
 begin
   case target.bfield[p_x,p_y] of
     empty : begin
