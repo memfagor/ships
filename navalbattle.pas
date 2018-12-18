@@ -229,17 +229,15 @@ procedure autofill_field(var obj : field; nmbr : byte);
 
 var
   indx : byte;
-  p_x : byte;
-  p_y : byte;
+  coord : coordinates;
 
 begin
   for indx := 1 to nmbr do
   begin
     repeat
-      p_x := random(10);
-      p_y := random(10);
-    until is_empty(obj,p_x,p_y);
-    obj[p_x,p_y] := occupied;
+      coord := generate_coordinates;
+    until is_empty(obj,coord.pos_x,coord.pos_y);
+    obj[coord.pos_x,coord.pos_y] := occupied;
   end;
 end;
 
@@ -275,15 +273,13 @@ end;
 procedure autoshoot(var shooter, target : player);
 
 var
-  p_x : byte;
-  p_y : byte;
+  coord : coordinates;
  
 begin
   repeat
-    p_x := random(10);
-    p_y := random(10);
-  until target.bfield[p_x,p_y] in [empty, occupied];
-  reach_target(shooter,target,p_x,p_y);
+    coord := generate_coordinates;
+  until target.bfield[coord.pos_x,coord.pos_y] in [empty, occupied];
+  reach_target(shooter,target,coord.pos_x,coord.pos_y);
 end;
 
 procedure shoot(var shooter, target : player);
