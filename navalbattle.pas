@@ -3,87 +3,22 @@ unit navalbattle;
 
 interface
 
-uses crt;
+uses crt, base, baselogic;
 
-const
-    DEFAULT_TEXT_COLOR = 7;
-    DEFAULT_BOARD_SIZE = 9;
-
-type
-
-coordinates = record
-                pos_x : byte;
-                pos_y : byte;
-              end;
-
-point = (empty,occupied,hit,miss,marked);
-
-field = array[0..DEFAULT_BOARD_SIZE,0..DEFAULT_BOARD_SIZE] of point;
-
-player = record
-           bfield : field;
-           hit : byte;
-           miss : byte;
-         end;
-
-players = array [0..1] of player;
-
-function is_empty(var obj : field; p_x, p_y : shortint) : boolean;
-function vessels_number(var obj : field) : byte;
 procedure init_field(var obj : field);
 procedure init_player(var obj : player);
 procedure init_fields(var obj : players);
+procedure colorized_write(txt : string; color : byte);
 procedure print_point(obj : point);
 procedure print_field(var obj : field; p_x, p_y : byte; hidden : point);
 procedure print_battlefield(var obj : players; p_x, p_y : byte);
 procedure fill_field(var obj : field; nmbr : byte);
 procedure autofill_field(var obj : field; nmbr : byte);
-procedure mark_sinked(var obj : field; p_x, p_y : shortint);
 procedure autoshoot(var shooter, target : player);
 procedure shoot(var shooter, target : player);
 
 
 implementation
-
-function is_empty(var obj : field; p_x, p_y : shortint) : boolean;
-
-var
-  test : boolean = true;
-  indx_x : shortint;
-  indx_y : shortint;
-
-begin
-  for indx_y := p_y - 1 to p_y + 1 do
-    for indx_x := p_x -1 to p_x + 1 do
-      if (indx_x in [0..DEFAULT_BOARD_SIZE]) and (indx_y in [0..DEFAULT_BOARD_SIZE]) then 
-        if not (obj[indx_x,indx_y] = empty) then test := false;
-  is_empty := test;
-end;
-
-function generate_coordinates: coordinates;
-
-var
-  coord : coordinates;
-
-begin
-  coord.pos_x := random(DEFAULT_BOARD_SIZE + 1);
-  coord.pos_y := random(DEFAULT_BOARD_SIZE + 1);
-  generate_coordinates := coord;
-end;
-
-function vessels_number(var obj : field) : byte;
-
-var
-  indx_x : byte;
-  indx_y : byte;
-  vessels : byte = 0;
-
-begin
-  for indx_y := 0 to DEFAULT_BOARD_SIZE do
-    for indx_x := 0 to DEFAULT_BOARD_SIZE do
-      if obj[indx_x,indx_y] = occupied then vessels := vessels + 1;
-  vessels_number := vessels;
-end;
 
 procedure init_field(var obj : field);
 
@@ -238,35 +173,6 @@ begin
       coord := generate_coordinates;
     until is_empty(obj,coord.pos_x,coord.pos_y);
     obj[coord.pos_x,coord.pos_y] := occupied;
-  end;
-end;
-
-procedure mark_sinked(var obj : field; p_x, p_y : shortint);
-
-var
-  indx_x : shortint;
-  indx_y : shortint;
-  
-begin
-  for indx_y := p_y - 1 to p_y + 1 do
-    for indx_x := p_x - 1 to p_x + 1 do
-      if (indx_x in [0..DEFAULT_BOARD_SIZE]) and (indx_y in [0..DEFAULT_BOARD_SIZE]) then
-        if obj[indx_x,indx_y] = empty then obj[indx_x,indx_y] := marked;
-end;
-
-procedure reach_target(var shooter, target : player; p_x, p_y : byte);
-
-begin
-  case target.bfield[p_x,p_y] of
-    empty : begin
-              target.bfield[p_x,p_y] := miss;
-              shooter.miss := shooter.miss + 1;
-            end;
-    occupied : begin
-                 target.bfield[p_x,p_y] := hit;
-                 mark_sinked(target.bfield,p_x,p_y);
-                 shooter.hit := shooter.hit + 1;
-               end;
   end;
 end;
 
