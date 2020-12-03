@@ -29,5 +29,5 @@ fpc ships.pas
 
 ## License
 
-This project is licensed under the BSD 2-Clause "Simplified" License - see the
+This project is licensed under the ISC License - see the
 [LICENSE](LICENSE) file for details
