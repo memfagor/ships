@@ -203,7 +203,7 @@ var
 begin
   cursor.x := 0;
   cursor.y := 0;
-  while indx < 20 do
+  while indx < nmbr do
   begin
     is_set := false;
     print_field(obj,1,1,empty);
@@ -220,14 +220,17 @@ begin
       keyprssd := readkey;
       move_cursor(cursor,keyprssd);
       case keyprssd of
-        #13 : if is_empty(obj,cursor) then is_set := true;
+        #13 : if is_empty(obj,cursor) then
+              begin
+                  is_set := true;
+                  obj[cursor.x,cursor.y] := occupied;
+              end;
         #27 : begin
                 is_set := true;
-                indx := 21;
+                indx := nmbr + 1;
               end;
       end;
     until is_set;
-    obj[cursor.x,cursor.y] := occupied;
     indx := indx + 1;
   end;
 end;
