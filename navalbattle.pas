@@ -28,7 +28,7 @@ player = record
 
 players = array [0..1] of player;
 
-function is_empty(var obj : field; p_x, p_y : shortint) : boolean;
+function is_empty(var obj : field; coord: coordinates) : boolean;
 function vessels_number(var obj : field) : byte;
 procedure init_field(var obj : field);
 procedure init_player(var obj : player);
@@ -45,7 +45,7 @@ procedure shoot(var shooter, target : player);
 
 implementation
 
-function is_empty(var obj : field; p_x, p_y : shortint) : boolean;
+function is_empty(var obj : field; coord: coordinates) : boolean;
 
 var
   test : boolean = true;
@@ -53,8 +53,8 @@ var
   indx_y : shortint;
 
 begin
-  for indx_y := p_y - 1 to p_y + 1 do
-    for indx_x := p_x -1 to p_x + 1 do
+  for indx_y := coord.y - 1 to coord.y + 1 do
+    for indx_x := coord.x -1 to coord.x + 1 do
       if (indx_x in [0..DEFAULT_BOARD_SIZE]) and (indx_y in [0..DEFAULT_BOARD_SIZE]) then 
         if not (obj[indx_x,indx_y] = empty) then test := false;
   is_empty := test;
@@ -213,7 +213,7 @@ begin
         #80 : if cursor.y < DEFAULT_BOARD_SIZE then cursor.y := cursor.y + 1 else cursor.y := 0;
         #75 : if cursor.x > 0 then cursor.x := cursor.x - 1 else cursor.x := DEFAULT_BOARD_SIZE;
         #77 : if cursor.x < DEFAULT_BOARD_SIZE then cursor.x := cursor.x + 1 else cursor.x := 0;
-        #13 : if is_empty(obj,cursor.x,cursor.y) then is_set := true;
+        #13 : if is_empty(obj,cursor) then is_set := true;
         #27 : begin
                 is_set := true;
                 indx := 21;
@@ -236,7 +236,7 @@ begin
   begin
     repeat
       coord := generate_coordinates;
-    until is_empty(obj,coord.x,coord.y);
+    until is_empty(obj,coord);
     obj[coord.x,coord.y] := occupied;
   end;
 end;
