@@ -182,6 +182,16 @@ begin
   end;
 end;
 
+procedure move_cursor(var cursor : coordinates; key : char);
+begin
+      case key of
+        #72 : if cursor.y > 0 then cursor.y := cursor.y - 1 else cursor.y := DEFAULT_BOARD_SIZE;
+        #80 : if cursor.y < DEFAULT_BOARD_SIZE then cursor.y := cursor.y + 1 else cursor.y := 0;
+        #75 : if cursor.x > 0 then cursor.x := cursor.x - 1 else cursor.x := DEFAULT_BOARD_SIZE;
+        #77 : if cursor.x < DEFAULT_BOARD_SIZE then cursor.x := cursor.x + 1 else cursor.x := 0;
+      end;
+end;
+
 procedure fill_field(var obj : field; nmbr : byte);
 
 var
