@@ -183,6 +183,7 @@ begin
 end;
 
 procedure move_cursor(var cursor : coordinates; key : char);
+
 begin
       case key of
         #72 : if cursor.y > 0 then cursor.y := cursor.y - 1 else cursor.y := DEFAULT_BOARD_SIZE;
