@@ -1,4 +1,4 @@
-unit navalbattle;
+unit logic;
 
 
 interface
