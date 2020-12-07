@@ -12,8 +12,8 @@ const
 type
 
 coordinates = record
-                x : byte;
-                y : byte;
+                x : shortint;
+                y : shortint;
               end;
 
 point = (empty,occupied,hit,miss,marked);
@@ -74,8 +74,8 @@ end;
 function vessels_number(var obj : field) : byte;
 
 var
-  indx_x : byte;
-  indx_y : byte;
+  indx_x : shortint;
+  indx_y : shortint;
   vessels : byte = 0;
 
 begin
@@ -88,8 +88,8 @@ end;
 procedure init_field(var obj : field);
 
 var
-  indx_x : byte;
-  indx_y : byte;
+  indx_x : shortint;
+  indx_y : shortint;
 
 begin
   for indx_y := 0 to DEFAULT_BOARD_SIZE do
@@ -136,8 +136,8 @@ end;
 procedure print_field(var obj : field; p_x, p_y : byte; hidden : point);
 
 var
-  indx_y : byte;
-  indx_x : byte;
+  indx_y : shortint;
+  indx_x : shortint;
 
 begin
   gotoxy(p_x+2,p_y);
