@@ -38,7 +38,7 @@ procedure print_field(var obj : field; p_x, p_y : byte; hidden : point);
 procedure print_battlefield(var obj : players; p_x, p_y : byte);
 procedure fill_field(var obj : field; nmbr : byte);
 procedure autofill_field(var obj : field; nmbr : byte);
-procedure mark_sinked(var obj : field; p_x, p_y : shortint);
+procedure mark_sinked(var obj : field; coord: coordinates);
 procedure autoshoot(var shooter, target : player);
 procedure shoot(var shooter, target : player);
 
@@ -241,30 +241,30 @@ begin
   end;
 end;
 
-procedure mark_sinked(var obj : field; p_x, p_y : shortint);
+procedure mark_sinked(var obj : field; coord : coordinates);
 
 var
   indx_x : shortint;
   indx_y : shortint;
   
 begin
-  for indx_y := p_y - 1 to p_y + 1 do
-    for indx_x := p_x - 1 to p_x + 1 do
+  for indx_y := coord.y - 1 to coord.y + 1 do
+    for indx_x := coord.x - 1 to coord.x + 1 do
       if (indx_x in [0..DEFAULT_BOARD_SIZE]) and (indx_y in [0..DEFAULT_BOARD_SIZE]) then
         if obj[indx_x,indx_y] = empty then obj[indx_x,indx_y] := marked;
 end;
 
-procedure reach_target(var shooter, target : player; p_x, p_y : byte);
+procedure reach_target(var shooter, target : player; coord: coordinates);
 
 begin
-  case target.bfield[p_x,p_y] of
+  case target.bfield[coord.x,coord.y] of
     empty : begin
-              target.bfield[p_x,p_y] := miss;
+              target.bfield[coord.x,coord.y] := miss;
               shooter.miss := shooter.miss + 1;
             end;
     occupied : begin
-                 target.bfield[p_x,p_y] := hit;
-                 mark_sinked(target.bfield,p_x,p_y);
+                 target.bfield[coord.x,coord.y] := hit;
+                 mark_sinked(target.bfield,coord);
                  shooter.hit := shooter.hit + 1;
                end;
   end;
@@ -279,7 +279,7 @@ begin
   repeat
     coord := generate_coordinates;
   until target.bfield[coord.x,coord.y] in [empty, occupied];
-  reach_target(shooter,target,coord.x,coord.y);
+  reach_target(shooter,target,coord);
 end;
 
 procedure shoot(var shooter, target : player);
@@ -329,7 +329,7 @@ begin
        #27 : is_shoot := true;
      end;
    until is_shoot;
-   reach_target(shooter,target,cursor.x,cursor.y);
+   reach_target(shooter,target,cursor);
 end;
    
 end.
