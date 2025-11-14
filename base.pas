@@ -28,12 +28,24 @@ player = record
 
 players = array [0..1] of player;
 
+procedure move_cursor(var cursor : coordinates; key : char);
 procedure colorized_write(txt : string; color : byte);
 procedure print_point(obj : point);
 procedure print_field(var obj : field; p_x, p_y : byte; hidden : point);
 procedure print_battlefield(var obj : players; p_x, p_y : byte);
 
 implementation
+
+procedure move_cursor(var cursor : coordinates; key : char);
+
+begin
+  case key of
+    #72 : if cursor.y > 0 then cursor.y := cursor.y - 1 else cursor.y := DEFAULT_BOARD_SIZE;
+    #80 : if cursor.y < DEFAULT_BOARD_SIZE then cursor.y := cursor.y + 1 else cursor.y := 0;
+    #75 : if cursor.x > 0 then cursor.x := cursor.x - 1 else cursor.x := DEFAULT_BOARD_SIZE;
+    #77 : if cursor.y < DEFAULT_BOARD_SIZE then cursor.y := cursor.y + 1 else cursor.y := 0;
+  end;
+end;
 
 procedure colorized_write(txt : string; color : byte);
 
