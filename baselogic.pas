@@ -8,8 +8,8 @@ uses crt, base;
 function generate_coordinates: coordinates;
 function vessels_number(var obj : field) : byte;
 function is_empty(var obj : field; coord : coordinates) : boolean;
+function reach_target(var shooter, target : player; coord : coordinates) : boolean;
 procedure mark_sinked(var obj : field; coord : coordinates);
-procedure reach_target(var shooter, target : player; coord : coordinates);
 
 implementation
 
@@ -53,6 +53,25 @@ begin
   is_empty := test;
 end;
 
+function reach_target(var shooter, target : player; coord : coordinates) : boolean;
+
+var
+    rslt : boolean = true;
+begin
+  case target.bfield[coord.x,coord.y] of
+    empty : begin
+              target.bfield[coord.x,coord.y] := miss;
+              shooter.miss := shooter.miss + 1;
+            end;
+    occupied : begin
+                 target.bfield[coord.x,coord.y] := hit;
+                 shooter.hit := shooter.hit + 1;
+               end;
+  else
+    rslt := false;
+  end;
+  reach_target := rslt;
+end;
 
 procedure mark_sinked(var obj : field; coord : coordinates);
 
@@ -65,22 +84,6 @@ begin
     for indx_x := coord.x - 1 to coord.x + 1 do
       if (indx_x in [0..DEFAULT_BOARD_SIZE]) and (indx_y in [0..DEFAULT_BOARD_SIZE]) then
         if obj[indx_x,indx_y] = empty then obj[indx_x,indx_y] := marked;
-end;
-
-procedure reach_target(var shooter, target : player; coord : coordinates);
-
-begin
-  case target.bfield[coord.x,coord.y] of
-    empty : begin
-              target.bfield[coord.x,coord.y] := miss;
-              shooter.miss := shooter.miss + 1;
-            end;
-    occupied : begin
-                 target.bfield[coord.x,coord.y] := hit;
-                 mark_sinked(target.bfield,coord);
-                 shooter.hit := shooter.hit + 1;
-               end;
-  end;
 end;
 
 end.

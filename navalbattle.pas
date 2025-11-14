@@ -111,8 +111,8 @@ var
 begin
   repeat
     coord := generate_coordinates;
-  until target.bfield[coord.x,coord.y] in [empty, occupied];
-  reach_target(shooter,target,coord);
+  until reach_target(shooter,target,coord);
+  mark_sinked(target.bfield,coord);
 end;
 
 procedure shoot(var shooter, target : player);
@@ -138,7 +138,7 @@ begin
        #80 : if cursor.y < DEFAULT_BOARD_SIZE then cursor.y := cursor.y + 1 else cursor.y := 0;
        #75 : if cursor.x > 0 then cursor.x := cursor.x - 1 else cursor.x := DEFAULT_BOARD_SIZE;
        #77 : if cursor.x < DEFAULT_BOARD_SIZE then cursor.x := cursor.x + 1 else cursor.x := 0;
-       #13 : if (target.bfield[cursor.x,cursor.y] = empty) or (target.bfield[cursor.x,cursor.y] = occupied) then 
+       #13 : if reach_target(shooter,target,cursor) then 
              begin
                gotoxy(3,15);
                write('                                   ');
@@ -162,7 +162,7 @@ begin
        #27 : is_shoot := true;
      end;
    until is_shoot;
-   reach_target(shooter,target,cursor);
+   mark_sinked(target.bfield,cursor);
 end;
    
 end.
