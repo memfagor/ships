@@ -75,7 +75,7 @@ begin
         #80 : if cursor.pos_y < DEFAULT_BOARD_SIZE then cursor.pos_y := cursor.pos_y + 1 else cursor.pos_y := 0;
         #75 : if cursor.pos_x > 0 then cursor.pos_x := cursor.pos_x - 1 else cursor.pos_x := DEFAULT_BOARD_SIZE;
         #77 : if cursor.pos_x < DEFAULT_BOARD_SIZE then cursor.pos_x := cursor.pos_x + 1 else cursor.pos_x := 0;
-        #13 : if is_empty(obj,cursor.pos_x,cursor.pos_y) then is_set := true;
+        #13 : if is_empty(obj,cursor) then is_set := true;
         #27 : begin
                 is_set := true;
                 indx := 21;
@@ -98,7 +98,7 @@ begin
   begin
     repeat
       coord := generate_coordinates;
-    until is_empty(obj,coord.pos_x,coord.pos_y);
+    until is_empty(obj,coord);
     obj[coord.pos_x,coord.pos_y] := occupied;
   end;
 end;
@@ -112,7 +112,7 @@ begin
   repeat
     coord := generate_coordinates;
   until target.bfield[coord.pos_x,coord.pos_y] in [empty, occupied];
-  reach_target(shooter,target,coord.pos_x,coord.pos_y);
+  reach_target(shooter,target,coord);
 end;
 
 procedure shoot(var shooter, target : player);
@@ -162,7 +162,7 @@ begin
        #27 : is_shoot := true;
      end;
    until is_shoot;
-   reach_target(shooter,target,cursor.pos_x,cursor.pos_y);
+   reach_target(shooter,target,cursor);
 end;
    
 end.

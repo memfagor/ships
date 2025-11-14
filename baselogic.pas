@@ -7,9 +7,9 @@ uses crt, base;
 
 function generate_coordinates: coordinates;
 function vessels_number(var obj : field) : byte;
-function is_empty(var obj : field; p_x, p_y : shortint) : boolean;
-procedure mark_sinked(var obj : field; p_x, p_y : shortint);
-procedure reach_target(var shooter, target : player; p_x, p_y : byte);
+function is_empty(var obj : field; coord : coordinates) : boolean;
+procedure mark_sinked(var obj : field; coord : coordinates);
+procedure reach_target(var shooter, target : player; coord : coordinates);
 
 implementation
 
@@ -38,7 +38,7 @@ begin
   vessels_number := vessels;
 end;
 
-function is_empty(var obj : field; p_x, p_y : shortint) : boolean;
+function is_empty(var obj : field; coord : coordinates) : boolean;
 
 var
   test : boolean = true;
@@ -46,38 +46,38 @@ var
   indx_y : shortint;
 
 begin
-  for indx_y := p_y - 1 to p_y + 1 do
-    for indx_x := p_x -1 to p_x + 1 do
+  for indx_y := coord.pos_y - 1 to coord.pos_y + 1 do
+    for indx_x := coord.pos_x - 1 to coord.pos_x + 1 do
       if (indx_x in [0..DEFAULT_BOARD_SIZE]) and (indx_y in [0..DEFAULT_BOARD_SIZE]) then 
         if not (obj[indx_x,indx_y] = empty) then test := false;
   is_empty := test;
 end;
 
 
-procedure mark_sinked(var obj : field; p_x, p_y : shortint);
+procedure mark_sinked(var obj : field; coord : coordinates);
 
 var
   indx_x : shortint;
   indx_y : shortint;
   
 begin
-  for indx_y := p_y - 1 to p_y + 1 do
-    for indx_x := p_x - 1 to p_x + 1 do
+  for indx_y := coord.pos_y - 1 to coord.pos_y + 1 do
+    for indx_x := coord.pos_x - 1 to coord.pos_x + 1 do
       if (indx_x in [0..DEFAULT_BOARD_SIZE]) and (indx_y in [0..DEFAULT_BOARD_SIZE]) then
         if obj[indx_x,indx_y] = empty then obj[indx_x,indx_y] := marked;
 end;
 
-procedure reach_target(var shooter, target : player; p_x, p_y : byte);
+procedure reach_target(var shooter, target : player; coord : coordinates);
 
 begin
-  case target.bfield[p_x,p_y] of
+  case target.bfield[coord.pos_x,coord.pos_y] of
     empty : begin
-              target.bfield[p_x,p_y] := miss;
+              target.bfield[coord.pos_x,coord.pos_y] := miss;
               shooter.miss := shooter.miss + 1;
             end;
     occupied : begin
-                 target.bfield[p_x,p_y] := hit;
-                 mark_sinked(target.bfield,p_x,p_y);
+                 target.bfield[coord.pos_x,coord.pos_y] := hit;
+                 mark_sinked(target.bfield,coord);
                  shooter.hit := shooter.hit + 1;
                end;
   end;
