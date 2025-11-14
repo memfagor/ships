@@ -53,8 +53,8 @@ var
   is_set : boolean = false;
 
 begin
-  cursor.pos_x := 0;
-  cursor.pos_y := 0;
+  cursor.x := 0;
+  cursor.y := 0;
   while indx < 20 do
   begin
     is_set := false;
@@ -65,16 +65,16 @@ begin
       write(indx+1);
       gotoxy(3,15);
       write('Position X: ');
-      write(cursor.pos_x+1:2);
+      write(cursor.x+1:2);
       gotoxy(18,15);
       write('Y: ');
-      write(cursor.pos_y+1:2);
+      write(cursor.y+1:2);
       keyprssd := readkey;
       case keyprssd of
-        #72 : if cursor.pos_y > 0 then cursor.pos_y := cursor.pos_y - 1 else cursor.pos_y := DEFAULT_BOARD_SIZE;
-        #80 : if cursor.pos_y < DEFAULT_BOARD_SIZE then cursor.pos_y := cursor.pos_y + 1 else cursor.pos_y := 0;
-        #75 : if cursor.pos_x > 0 then cursor.pos_x := cursor.pos_x - 1 else cursor.pos_x := DEFAULT_BOARD_SIZE;
-        #77 : if cursor.pos_x < DEFAULT_BOARD_SIZE then cursor.pos_x := cursor.pos_x + 1 else cursor.pos_x := 0;
+        #72 : if cursor.y > 0 then cursor.y := cursor.y - 1 else cursor.y := DEFAULT_BOARD_SIZE;
+        #80 : if cursor.y < DEFAULT_BOARD_SIZE then cursor.y := cursor.y + 1 else cursor.y := 0;
+        #75 : if cursor.x > 0 then cursor.x := cursor.x - 1 else cursor.x := DEFAULT_BOARD_SIZE;
+        #77 : if cursor.x < DEFAULT_BOARD_SIZE then cursor.x := cursor.x + 1 else cursor.x := 0;
         #13 : if is_empty(obj,cursor) then is_set := true;
         #27 : begin
                 is_set := true;
@@ -82,7 +82,7 @@ begin
               end;
       end;
     until is_set;
-    obj[cursor.pos_x,cursor.pos_y] := occupied;
+    obj[cursor.x,cursor.y] := occupied;
     indx := indx + 1;
   end;
 end;
@@ -99,7 +99,7 @@ begin
     repeat
       coord := generate_coordinates;
     until is_empty(obj,coord);
-    obj[coord.pos_x,coord.pos_y] := occupied;
+    obj[coord.x,coord.y] := occupied;
   end;
 end;
 
@@ -111,7 +111,7 @@ var
 begin
   repeat
     coord := generate_coordinates;
-  until target.bfield[coord.pos_x,coord.pos_y] in [empty, occupied];
+  until target.bfield[coord.x,coord.y] in [empty, occupied];
   reach_target(shooter,target,coord);
 end;
 
@@ -123,29 +123,29 @@ var
   is_shoot : boolean = false;
    
 begin
-   cursor.pos_x := 0;
-   cursor.pos_y := 0;
+   cursor.x := 0;
+   cursor.y := 0;
    repeat
      gotoxy(3,14);
      write('Position X: ');
-     write(cursor.pos_x+1:2);
+     write(cursor.x+1:2);
      gotoxy(18,14);
      write('Y: ');
-     write(cursor.pos_y+1:2);
+     write(cursor.y+1:2);
      keyprssd := readkey;
      case keyprssd of
-       #72 : if cursor.pos_y > 0 then cursor.pos_y := cursor.pos_y - 1 else cursor.pos_y := DEFAULT_BOARD_SIZE;
-       #80 : if cursor.pos_y < DEFAULT_BOARD_SIZE then cursor.pos_y := cursor.pos_y + 1 else cursor.pos_y := 0;
-       #75 : if cursor.pos_x > 0 then cursor.pos_x := cursor.pos_x - 1 else cursor.pos_x := DEFAULT_BOARD_SIZE;
-       #77 : if cursor.pos_x < DEFAULT_BOARD_SIZE then cursor.pos_x := cursor.pos_x + 1 else cursor.pos_x := 0;
-       #13 : if (target.bfield[cursor.pos_x,cursor.pos_y] = empty) or (target.bfield[cursor.pos_x,cursor.pos_y] = occupied) then 
+       #72 : if cursor.y > 0 then cursor.y := cursor.y - 1 else cursor.y := DEFAULT_BOARD_SIZE;
+       #80 : if cursor.y < DEFAULT_BOARD_SIZE then cursor.y := cursor.y + 1 else cursor.y := 0;
+       #75 : if cursor.x > 0 then cursor.x := cursor.x - 1 else cursor.x := DEFAULT_BOARD_SIZE;
+       #77 : if cursor.x < DEFAULT_BOARD_SIZE then cursor.x := cursor.x + 1 else cursor.x := 0;
+       #13 : if (target.bfield[cursor.x,cursor.y] = empty) or (target.bfield[cursor.x,cursor.y] = occupied) then 
              begin
                gotoxy(3,15);
                write('                                   ');
                is_shoot := true;
              end
              else
-               case target.bfield[cursor.pos_x,cursor.pos_y] of
+               case target.bfield[cursor.x,cursor.y] of
                  hit : begin
                          gotoxy(3,15);
                          write('Already shoot here and hit :)      ');

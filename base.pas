@@ -12,8 +12,8 @@ const
 type
 
 coordinates = record
-                pos_x : shortint;
-                pos_y : shortint;
+                x : shortint;
+                y : shortint;
               end;
 
 point = (empty,occupied,hit,miss,marked);

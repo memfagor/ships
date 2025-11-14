@@ -19,8 +19,8 @@ var
   coord : coordinates;
 
 begin
-  coord.pos_x := random(DEFAULT_BOARD_SIZE + 1);
-  coord.pos_y := random(DEFAULT_BOARD_SIZE + 1);
+  coord.x := random(DEFAULT_BOARD_SIZE + 1);
+  coord.y := random(DEFAULT_BOARD_SIZE + 1);
   generate_coordinates := coord;
 end;
 
@@ -46,8 +46,8 @@ var
   indx_y : shortint;
 
 begin
-  for indx_y := coord.pos_y - 1 to coord.pos_y + 1 do
-    for indx_x := coord.pos_x - 1 to coord.pos_x + 1 do
+  for indx_y := coord.y - 1 to coord.y + 1 do
+    for indx_x := coord.x - 1 to coord.x + 1 do
       if (indx_x in [0..DEFAULT_BOARD_SIZE]) and (indx_y in [0..DEFAULT_BOARD_SIZE]) then 
         if not (obj[indx_x,indx_y] = empty) then test := false;
   is_empty := test;
@@ -61,8 +61,8 @@ var
   indx_y : shortint;
   
 begin
-  for indx_y := coord.pos_y - 1 to coord.pos_y + 1 do
-    for indx_x := coord.pos_x - 1 to coord.pos_x + 1 do
+  for indx_y := coord.y - 1 to coord.y + 1 do
+    for indx_x := coord.x - 1 to coord.x + 1 do
       if (indx_x in [0..DEFAULT_BOARD_SIZE]) and (indx_y in [0..DEFAULT_BOARD_SIZE]) then
         if obj[indx_x,indx_y] = empty then obj[indx_x,indx_y] := marked;
 end;
@@ -70,13 +70,13 @@ end;
 procedure reach_target(var shooter, target : player; coord : coordinates);
 
 begin
-  case target.bfield[coord.pos_x,coord.pos_y] of
+  case target.bfield[coord.x,coord.y] of
     empty : begin
-              target.bfield[coord.pos_x,coord.pos_y] := miss;
+              target.bfield[coord.x,coord.y] := miss;
               shooter.miss := shooter.miss + 1;
             end;
     occupied : begin
-                 target.bfield[coord.pos_x,coord.pos_y] := hit;
+                 target.bfield[coord.x,coord.y] := hit;
                  mark_sinked(target.bfield,coord);
                  shooter.hit := shooter.hit + 1;
                end;
