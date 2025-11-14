@@ -70,11 +70,8 @@ begin
       write('Y: ');
       write(cursor.y+1:2);
       keyprssd := readkey;
+      move_cursor(cursor,keyprssd);
       case keyprssd of
-        #72 : if cursor.y > 0 then cursor.y := cursor.y - 1 else cursor.y := DEFAULT_BOARD_SIZE;
-        #80 : if cursor.y < DEFAULT_BOARD_SIZE then cursor.y := cursor.y + 1 else cursor.y := 0;
-        #75 : if cursor.x > 0 then cursor.x := cursor.x - 1 else cursor.x := DEFAULT_BOARD_SIZE;
-        #77 : if cursor.x < DEFAULT_BOARD_SIZE then cursor.x := cursor.x + 1 else cursor.x := 0;
         #13 : if is_empty(obj,cursor) then is_set := true;
         #27 : begin
                 is_set := true;
@@ -133,11 +130,8 @@ begin
      write('Y: ');
      write(cursor.y+1:2);
      keyprssd := readkey;
+     move_cursor(cursor,keyprssd);
      case keyprssd of
-       #72 : if cursor.y > 0 then cursor.y := cursor.y - 1 else cursor.y := DEFAULT_BOARD_SIZE;
-       #80 : if cursor.y < DEFAULT_BOARD_SIZE then cursor.y := cursor.y + 1 else cursor.y := 0;
-       #75 : if cursor.x > 0 then cursor.x := cursor.x - 1 else cursor.x := DEFAULT_BOARD_SIZE;
-       #77 : if cursor.x < DEFAULT_BOARD_SIZE then cursor.x := cursor.x + 1 else cursor.x := 0;
        #13 : if reach_target(shooter,target,cursor) then 
              begin
                gotoxy(3,15);
