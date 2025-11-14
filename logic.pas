@@ -265,7 +265,10 @@ begin
         if obj[indx_x,indx_y] = empty then obj[indx_x,indx_y] := marked;
 end;
 
-procedure reach_target(var shooter, target : player; coord: coordinates);
+function reach_target(var shooter, target : player; coord: coordinates): boolean;
+
+var
+  rslt : boolean = true;
 
 begin
   case target.bfield[coord.x,coord.y] of
@@ -275,10 +278,12 @@ begin
             end;
     occupied : begin
                  target.bfield[coord.x,coord.y] := hit;
-                 mark_sinked(target.bfield,coord);
                  shooter.hit := shooter.hit + 1;
                end;
+  else
+      rslt := false;
   end;
+  reach_target := rslt;
 end;
 
 procedure autoshoot(var shooter, target : player);
@@ -289,8 +294,8 @@ var
 begin
   repeat
     coord := generate_coordinates;
-  until target.bfield[coord.x,coord.y] in [empty, occupied];
-  reach_target(shooter,target,coord);
+  until reach_target(shooter,target,coord);
+  mark_sinked(target.bfield,coord);
 end;
 
 procedure shoot(var shooter, target : player);
@@ -298,7 +303,7 @@ procedure shoot(var shooter, target : player);
 var
   cursor : coordinates;
   keyprssd : char;
-  is_shoot : boolean = false;
+  is_shoot : boolean = true;
    
 begin
    cursor.x := 0;
@@ -313,7 +318,7 @@ begin
      keyprssd := readkey;
      move_cursor(cursor,keyprssd);
      case keyprssd of
-       #13 : if (target.bfield[cursor.x,cursor.y] = empty) or (target.bfield[cursor.x,cursor.y] = occupied) then 
+       #13 : if reach_target(shooter,target,cursor) then 
              begin
                gotoxy(3,15);
                write('                                   ');
@@ -337,7 +342,7 @@ begin
        #27 : is_shoot := true;
      end;
    until is_shoot;
-   reach_target(shooter,target,cursor);
+   mark_sinked(target.bfield,cursor);
 end;
    
 end.
